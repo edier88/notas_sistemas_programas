@@ -1,0 +1,64 @@
+
+-_-_-_-_-_-_-NORMAL GIT-_-_-_-_-_-_-
+
+1. CLONING:
+$ clone <URL>
+
+2. STATUS:
+Viewing what's happening:
+$ git status
+
+3. ADD CHANGED FILES:
+$ git add <file>
+
+4. COMMIT:
+After adding changes one needs o commit:
+$ git commit
+
+5. PUSH:
+After commit, push the changes to gitlab or github:
+$ git push
+
+
+-_-_-_-_-_-_-BRANCHING-_-_-_-_-_-_-
+
+$ git branch <branch_name>		--> To create a new branch
+$ git checkout <branch_name>		--> To get inside the branch
+
+The above can be reduced to one single command:
+
+$ git checkout -b <branch_name>	--> To create a new branch and get inside it at the same time
+
+
+-_-_-_-_-_-_-PUSHING BRANCH-_-_-_-_-_-_-
+
+$ git push origin <branch_name>	--> where "origin" is the repository where you are right now, it can be replaced with other git repository name
+
+
+-_-_-_-_-_-_-LIST BRANCHES-_-_-_-_-_-_-
+
+$ git branch -a			--> List all branches
+$ git branch --list			--> List current branch where you are in
+
+
+
+-_-_-_-_-_-_-LIST CHANGES OF FILES-_-_-_-_-_-_-
+
+
+
+-_-_-_-_-_-_-GIT RESET-_-_-_-_-_-_-
+
+It resets all "git add" before commiting
+
+git reset <file>
+
+
+
+-_-_-_-_-_-_-GIT ADD-_-_-_-_-_-_-
+
+git add -A 	stages All (include new files, modified and some deleted files)
+git add . 	stages new and modified, without deleted
+git add -u 	stages modified and all deleted files and directories, without new
+
+
+

@@ -1,0 +1,32 @@
+NOTAS MYSQL--->
+
+1- Para el error de autenticación en PhpMyAdmin:
+
+------------------------------------------------------
+mysqli_real_connect(): The server requested authentication method unknown to the client [caching_sha2_password]
+mysqli_real_connect(): (HY000/2054): The server requested authentication method unknown to the client
+------------------------------------------------------
+
+Hay que cambiar el método de autenticación:
+
+mysql> ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '<userPassword>';
+Query OK, 0 rows affected (0.08 sec)
+
+
+2- Para importar base de datos desde consola si falla importarla por PhpMyAdmin:
+
+-----------------------------------------------------------
+# mysql -u username -p database_name < /path/to/file.sql
+-----------------------------------------------------------
+
+
+3- Autenticar en consola:
+
+-----------------------------------------------------------
+mysql -u root -p  
+-----------------------------------------------------------
+
+
+4- Cambiar password de root de mysql:
+
+# mysqladmin -u root password NEWPASSWORD

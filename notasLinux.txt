@@ -1,0 +1,628 @@
+
+|-|_|-|_|-|_|-|Copying a file or directory keeping the owners and permissions|-|_|-|_|-|_|-|
+
+// copying recursively:
+$ cp -rp <origin> <destination>
+
+// Copying a single file:
+$ cp -p <origin> <destination>
+
+"p" is for:  --preserve=mode,ownership,timestamps
+
+
+
+|-|_|-|_|-|_|-|_|-|_|-|Habilitar o deshabilitar servicios al inicio|-|_|-|_|-|_|-|_|-|_|-|
+
+-/-/-\PARA HABILITAR:
+# chkconfig httpd --add
+# chkconfig httpd on --level 2,3,5
+OR
+# chkconfig httpd on
+OR
+# systemctl enable httpd
+
+-/-/-\PARA DESHABILITAR:
+# chkconfig httpd off
+OR
+# systemctl disable httpd
+
+
+
+|-|_|-|_|-|_|-|_|-|_|-|Matar procesos|-|_|-|_|-|_|-|_|-|_|-|
+
+# ps aux | grep -i <pattern>
+# kill <PID>
+
+-/-/-\PARA MATAR PROCESO POR PATRON SIMILAR:
+
+# pkill <PID>
+
+
+
+|-|_|-|_|-|_|-|_|-|_|-| Rsync |-|_|-|_|-|_|-|_|-|_|-|
+
+#rsync -av <directorio> <destino>
+
+-/-/-\DRY-RUN (SIMULACRO, NO COPIA ARCHIVOS)
+
+#rsync -anv <directorio> <destino>
+
+
+
+
+|-|_|-|_|-|_|-|_|-|_|-|  tr (translate)  |-|_|-|_|-|_|-|_|-|_|-|
+
+# tr -s "h"< file1>file2
+---> translates (replace, thanks to the "-s" flag) all the repeating h's in file1 into one single "h" and saves the output in file2.
+
+# cat file1 | tr "[a-m]" "[A-M]">file2
+---> finds all the characters from "a" to "m" and turns them into upper case.
+
+
+
+|-|_|-|_|-|_|-|_|-|_|-|  AWK  |-|_|-|_|-|_|-|_|-|_|-|
+
+
+# ls -l | awk '{print $3 " " $5 " " $9}'
+---> prints only the thrid, fifth and ninth column of the oputput
+
+# awk '{print $1, $(NF-1) }' sample.txt
+---> prints the first and the second last column of the file
+
+
+
+|-|_|-|_|-|_|-|_|-|_|-|  SED (Stream Editor)  |-|_|-|_|-|_|-|_|-|_|-|
+
+SED filters and transforms text.
+SED makes changes to file content.
+
+
+# cat file1 | sed 's/do/wow/g'>file2
+---> replace the word "do" by "wow" globally
+
+# cat file1 | sed 's/do/wow/1'>file2
+---> replace the word "do" by "wow" once per line
+
+# cat file1 | sed 's/hola/quiubo/gi'>file2
+---> replace the word "hola" by "quiubo" globally in case insensitive mode.
+
+# sed ':a;N;$!ba;s/\b/"/g' file.txt
+---> Find all boundaries and replaces them for "
+
+# sed ':a;N;$!ba;s/\n/,/g' file.txt
+---> Replaces new lines for commas in file.txt
+
+# sed 's/^\b/"/m' dirs2
+---> Replaces start boundary with "
+
+# sed 's/\b$/"/m' dirs2
+---> Replaces end boundary with "
+
+|-|_|-|_|-|_|-|_|-|_|-|-|_|-|_|-|_|-|_|-|_|-|
+list files recursively / list total files or directories inside a directory
+|-|_|-|_|-|_|-|_|-|_|-|-|_|-|_|-|_|-|_|-|_|-|
+
+
+$ find /directory -type f
+---> finds files recursively
+
+$ find /directory -type d
+---> finds directories recursively
+
+$ find /directory | wc -l
+---> find all (files and directories) and list the total number of lines
+
+$ find /directory -maxdepth 1
+---> find all (files and directories) only in the root /father directory
+
+$ find /directory -name "*.sql" -type f
+---> find all files that have the given name recursively
+
+
+
+|-|_|-|_|-|_|-|_|-|_|-|  Count words, lines and characters of a file  |-|_|-|_|-|_|-|_|-|_|-|
+
+$ wc -m <file>		--> counts characters 
+$ wc -l <file>		--> counts lines 
+$ wc -w <file>		--> counts words
+
+
+
+|-|_|-|_|-|_|-|_|-|_|-|  Find files recursively  |-|_|-|_|-|_|-|_|-|_|-|
+
+--> Case sensitive:
+$ find /directory -name "*tiqal*" -type f
+
+--> Case insensitive:
+$ find /directory -iname "*tiqal*" -type f
+
+--> Case insensitive (another way):
+$ find /directory -print | grep -i tiqal
+
+
+
+
+|-|_|-|_|-|_|-|_|-|_|-|  Remove files recursively  |-|_|-|_|-|_|-|_|-|_|-|
+
+-> First we find the file
+$ find /directory -name "*.sql" -type f
+
+--> Once we know the files and we are sure that we can delete them:
+$ find /directory -name "*.sql" -type f -delete
+
+
+
+
+
+|-|_|-|_|-|_|-|_|-|_|-|  mount img files or ISO  |-|_|-|_|-|_|-|_|-|_|-|
+
+
+mount -o loop,offset=65536 /home/edier88_laptop/Downloads/usb.img /mnt/images/
+
+
+
+
+|-|_|-|_|-|_|-|_|-|_|-|  LVM Tutorial  |-|_|-|_|-|_|-|_|-|_|-|
+
+
+https://www.tecmint.com/extend-and-reduce-lvms-in-linux/
+
+
+
+|-|_|-|_|-|_|-|_|-|_|-|  Sort files by date  |-|_|-|_|-|_|-|_|-|_|-|
+
+# ls -lt
+
+ó de forma reversa:
+
+# ls -ltr
+
+ó usando awk
+
+# ls -l | awk '{print $7,$6,$8,$9}' | sort -n
+
+
+
+
+|-|_|-|_|-|_|-|_|-|_|-|  Sort/list only directories  |-|_|-|_|-|_|-|_|-|_|-|
+
+$ ls -ld
+
+$ ls -lF | grep \/$	---> -F allows us to list directories with a "/" at the end, so we can grep the "/"
+	or
+$ ls -la | grep ^d	---> To grep all lines with a "d" at the beginning
+
+$ ls -h		---> list files with sizes in a human way
+
+
+
+|-|_|-|_|-|_|-|_|-|  mimeinfo - default applications for file types  |-|_|-|_|-|_|-|_|-|
+
+/usr/share/applications/mimeinfo.cache
+
+Por ejemplo para eliminar que Chrome/Chromium se abra por defecto al abrir archivos PHP se borra la linea: 
+
+x-scheme-handler/ftp=google-chrome.desktop;
+
+
+
+|-|_|-|_|-|_|-|_|-|  Compresión y decompresión en TAR GZ  |-|_|-|_|-|_|-|_|-|
+
+
+t --> lists all contained files in the tar file
+z --> use gzip compression/decompression
+j --> use bzip2 compression/decompression method
+x --> extracts the file
+c --> compresses the file
+C --> allows you to save the extracted stuff to the directory you want
+
+
+tar -czvf <compressedFileName.tar.gz> <directory or file you want to compress>
+tar -xzvf <compressedFileName.tar.gz> -C <directory where you want to allocate the uncompress files>
+
+or
+
+tar -cjvf <compressedFileName.tar.bz2> <directory or file you want to compress>
+tar -xjvf <compressedFileName.tar.bz2> -C <directory where you want to allocate the uncompressed files>
+
+
+
+|-|_|-|_|-|_|-|_|-|  link and unlink directory or files  |-|_|-|_|-|_|-|_|-|
+
+---> Hard Link:
+$ ln <originalFile> <newfile-hardlinked>
+I create a hard link (a file associated physicaly to the inode of "originalFile")
+To view the inodes of the files:
+$ ls -li
+The inodes of both files must be the same.
+
+
+
+---> Symbolic Link:
+$ ln -s <archivo o directorio> 
+El link simbólico se guardaría en el directorio donde uno esté
+
+
+---> Unlink:
+$ ln -s <archivo o directorio> <archivo destino>
+
+$ unlink <nombre del symlink>
+
+
+
+|-|_|-|_|-|_|-|_|-|  GREP or EGREP - Mark matched patterns  |-|_|-|_|-|_|-|_|-|
+
+- Case insensitive search:
+$ grep -i <pattern>
+
+- Displays all lines but highlights the match pattern:
+$ grep -z <pattern>
+
+- Displays the lines you want after and before the matched pattern
+$ grep -A <number of lines before> -B <number of lines after> <pattern>
+
+Example: This shows 10 lines before and 7 lines after the matche pattern:
+$ grep -A 10 -B 7 <pattern>
+
+Search in the current directory (recursively and case insensitive) all the files that contain a pattern inside them:
+$ grep -Ri <pattern> /directory
+
+Search a string with regular expressions: (This will search 'hola:lola' or 'hola : lola' or 'hola :lola' etc.)
+$ egrep -r 'hola\s*\:\s*lola'
+(if case insensitive is needed, the flag '-i' must be added)
+
+
+
+|-|_|-|_|-|_|-|_|-|  SERVIDOR UBUNTU 10.04 FEBRICIO - COMANDOS Y RUTAS DISPOSITIVOS DE RED  |-|_|-|_|-|_|-|_|-|
+
+- Para ver los dispositivos instalados:
+# ls /sys/class/net
+# cat /proc/net/dev   --->  (algo así)
+
+El programa Wispro configura los dispositivos, las IP's y las rutas de una forma que, por ejemplo, en /etc/sysconfig, no se encuentra configurado absolutamente nada.
+
+- Para levantar la interfaz nueva, que se creó en la interfaz web de Wispro, se usó:
+# sudo ip link set dev eth0 down
+De esa manera, al usar "ifconfig" ya se veía la interfaz nueva.
+
+- Adicionalmente en: "/etc/network/interfaces"  se puede configurar la ip estática de una interfaz en particular adicionando la IP de manera similar a esta:
+
+auto eth0
+iface eth0 inet static
+address 192.168.1.2
+netmask 255.255.255.0
+broadcast 
+gateway 192.168.1.1
+
+- Si es por DHC:
+
+auto eth0
+iface eth0 inet dhcp
+
+
+- En "/etc/resolv.conf"  van los DNS:
+
+nameserver 8.8.8.8
+nameserver 8.8.4.4
+
+
+|-|_|-|_|-|_|-|_|-|  DNF History - show removed and installed packages  |-|_|-|_|-|_|-|_|-|
+
+# dnf history list		---> List of all dnf commands issued, all the command have an ID
+
+# dnf history info <id>	---> Lists all the installed and removed packages due to a specific dnf command identified by its ID.
+
+
+
+
+|-|_|-|_|-|_|-|_|-|  PATH environment variables  |-|_|-|_|-|_|-|_|-|
+
+The PATH keeps all the routes of the files that conatain the binaries that makes all commands in Linux: mv, cp, mkdir, etc...
+When a new command needs to be issued in the terminal, due to a new program, for example Laravel. The PATH has to be updated with the route of the binary that program has to use.
+
+To show the paths already configured:
+$ $PATH
+
+To add another path, we need to enter in terminal this command:
+$ export PATH="/<directory>/<route>/<to>/<bin>:$PATH"
+For example:
+$ export PATH="$HOME/.config/composer/vendor/bin:$PATH"
+
+However, if we issue this command in Terminal, as soon as we restart the machine or the terminal it self, all paths added disappear. 
+For adding permanently paths, we need to write this:
+export PATH="/<directory>/<route>/<to>/<bin>:$PATH"
+At the end of the following files:
+/etc/profile
+~/.bash_profile
+~/.bashrc
+~/.profile
+The files can be found in both, the root directory or the normal users directory. The file you need to edit depends on where you want the path to be permanently added and on what terminal emulator you're working in (bash or zsh or others).
+
+
+FOR ENVIRONMENT VARIABLES:
+
+Just add in:
+/etc/profile
+or
+~/.bash_profile
+or
+~/.bashrc
+or
+~/.profile
+
+The name of the variable and its value, like this:
+export MY_VARIABLE="my_value"
+
+
+|-|_|-|_|-|_|-|_|-|  Show devices and filesystems sizes / available space  |-|_|-|_|-|_|-|_|-|
+
+$ df -h
+
+
+|-|_|-|_|-|_|-|_|-|  Show file sizes in a directory  |-|_|-|_|-|_|-|_|-|
+
+$ du -h				---> Lists the sizes of only directories
+$ du -ah				---> Lists the sizes of directories and files recursively
+$ du -ah --max-depth=1			---> Lists the sizes of directories and files up to one level
+$ du -ah --max-depth=1	| sort -h	---> Lists the sizes of directories and files up to one level and sorts the list in ascending order
+$ du -ah --max-depth=1	| sort -hr	---> Lists the sizes of directories and files up to one level and sorts the list in descending order
+
+
+|-|_|-|_|-|_|-|_|-|  Show what's inside a file  |-|_|-|_|-|_|-|_|-|
+
+$ cat <fileName>
+$ tail <fileName>
+$ head <fileName>
+$ tail -5 <fileName>		---> Shows last 5 lines
+$ head -5 <fileName>		---> Shows first 5 lines
+
+
+|-|_|-|_|-|_|-|_|-|  Environment Variables  |-|_|-|_|-|_|-|_|-|
+
+HOME		---> Home directory of local user
+MAIL		---> Contains the messages of received mails
+PATH		---> It saves the executable commands and programs
+SHLVL		---> Registra niveles de shell anidado
+SHELL		---> Name of the type of the shell being used
+LANG		---> It saves the local language used at the moment
+USER		---> Contains the name of user
+
+
+|-|_|-|_|-|_|-|_|-|  Users and groups management  |-|_|-|_|-|_|-|_|-|
+
+/etc/passwd			---> users
+/etc/group			---> groups
+
+--->Users
+# useradd <userName>
+# useradd -m <userName>	---> Creates the user and its directory in /home
+# passwd <userName>
+# userdel <user>		---> Removes a user
+# adduser <userName> sudo	---> Adds the user to the sudoers file
+# usermod -aG wheel <userName>	---> Adds the user to the sudoers file
+
+
+--->Groups
+# groupadd <groupName>
+# groupel <groupName>
+# usermod -aG <group> <user>			---> adds an existing user to a group
+# usermod -aG <group1,group2,group3> <user>	---> adds an existing user to various groups
+# adduser -g <group> <user>			---> Creates a new user and adds it to a group
+
+
+|-|_|-|_|-|_|-|_|-|  Change owner and permissions  |-|_|-|_|-|_|-|_|-|
+
+# chown -R <user>:<group> /directory/
+# chmod -R 777 /directory/	---> rwxrwxrwx
+
+
+
+|-|_|-|_|-|_|-|_|-|  Execution levels  |-|_|-|_|-|_|-|_|-|
+
+$ runlevel 		--> That way we can know in which level are we running our system
+
+- Execution levels:
+
+0 - Shut down any system
+1 - Monouser mode
+2 - Multiuser mode
+3 - Multiuser mode with network capabilities
+4 - ( -- This level has been eliminated, it no longer exists, as it does the same thing as the level 3 -- )
+5 - Multiuser with GUI and network capabilities
+6- Restart any service
+
+
+
+|-|_|-|_|-|_|-|_|-|  Systemctl - Systemd  |-|_|-|_|-|_|-|_|-|
+
+# systemctl reload <service>		--> It reloads only the configuration file of a service, instead the whole service (not all service support this)
+
+# systemctl enable <service>
+# systemctl disable <service>		--> It disables / enables a service to start at startup
+
+# systemctl isenable <service>	--> Says if the service is enabled at startup or not
+
+
+
+|-|_|-|_|-|_|-|_|-|  Free SSL certificates  |-|_|-|_|-|_|-|_|-|
+
+Free SSL certificates with Certbot and Let's Encrypt
+
+
+
+|-|_|-|_|-|_|-|_|-|  Show Hardware configuration  |-|_|-|_|-|_|-|_|-|
+
+$ lspci
+
+$ lshw
+
+$ neofetch		--> Very Nice, Beautiful and brief configuration
+
+
+
+
+
+|-|_|-|_|-|_|-|_|-|  Add icon in applications list Gnome  |-|_|-|_|-|_|-|_|-|
+
+After installing a third party program we need to create a file with in the following directory and the following convention:
+ ~/.local/share/applications/<programName>.desktop
+The file has to contain something like the following example based in Postman program:
+(source: https://linux4one.com/how-to-install-postman-in-linux/)
+
+[Desktop Entry]
+Name=Postman
+GenericName=API Client
+X-GNOME-FullName=Postman API Client
+Comment=Make and view REST API calls and responses
+Keywords=api;
+Exec=/opt/Postman/Postman
+Terminal=false
+Type=Application
+Icon=/opt/Postman/app/resources/app/assets/icon.png
+Categories=Development;Utilities;
+
+
+
+
+|-|_|-|_|-|_|-|_|-|  Special permissions (setuid & setgid)  |-|_|-|_|-|_|-|_|-|
+
+--> setuid
+For example:
+ls -l /bin/passwd
+-rwsr-xr-x. 1 root root 27768 Feb 11  2017 /bin/passwd
+
+The setuid only works for files, not for directories. When any user different from the one who executed the file, executes the file, it is executed as if the owner were executing it. That's because, the file is always executed with the owner's user ID, no matter who executes it.
+
+
+
+--> setgid
+For example:
+$ ls -ld test
+drwxrwsr-x. 2 egdoc egdoc 4096 Nov  1 17:25 test
+
+The setgid has effect in directories and files, when any user executes the files, this is executed with the group permissions, no matter if the user who executed it doesn't belong to that group.
+
+
+If we have a file called "test", implementing this with "chmod" command, would be:
+
+1. For setuid:
+$ chmod 4775 test
+
+2. For setgid:
+$ chmod 2775 test
+
+
+
+
+
+|-|_|-|_|-|_|-|_|-|  Special permissions (sticky bit)  |-|_|-|_|-|_|-|_|-|
+
+Sticky bit can be only applied to directories. 
+Given a directory called "test" we can give it a sticky bit this way:
+
+$ chmod 1775 test/
+
+Sticky bit prevents users of modifying or deleting files inside a directory, no matter if the files inside there has all the permissions.
+For example:
+
+- I make the directory "allAccess" and put a sticky bit on it:
+$ mkdir allAccess
+$ chmod 1777 allAccess/
+$ ls -ld allAccess/
+drwxrwxrwt 2 himanshu himanshu 4096 Oct 24 15:43 allAccess/
+
+- If different users inside the directory create different files, like this:
+
+$ ls -l allAccess/
+total 0
+-rwxrwxrwx 1 himanshu himanshu 0 Oct 24 15:48 file1
+-rwxrwxrwx 1 guest    guest    0 Oct 24 16:11 file2
+-rwxrwxrwx 1 guest2   guest2  0 Oct 24 16:15 file3
+
+- And "guest2" wants to modify "file2", an error will be displayed. Thanks to the sticky bit in the directory, ONLY and ONLY the owner of the file can modify it or remove it.
+
+
+
+
+
+|-|_|-|_|-|_|-|_|-| Inserting some bash: Some commands explanations |-|_|-|_|-|_|-|_|-|
+
+$ find /var/www/html/wordpress -type d -exec chmod g+s {} \;
+
+The "exec" commprand simply executes what is in front of it when any directory is found:
+
+Example 1:
+$ find . -type f -exec chmod 775 {} \;
+Output:
+chmod 775 fileA
+chmod 775 fileB
+chmod 775 fileC
+
+
+Example 2:
+$ find . -type f -exec chmod 775 {} + 
+Output:
+chmod 775 fileA fileB fileC
+
+
+
+
+|-|_|-|_|-|_|-|_|-| Cut, trim videos with ffmpeg |-|_|-|_|-|_|-|_|-|
+
+$ ffmpeg -i <video> -ss 00:00:02 -to 00:07:30 -c copy <video_output>
+
+I have only used this with MKV videos.
+
+-ss : With this flag one specifies where to cut (everything before this time will be discarded)
+-to : This flag specifies the finishing cut (everything after this time is discarded)
+
+This example will generate a video with a duration of 7 minutes and 28 seconds, starting in the second "2" of the original video and ending in the minute 07:30 of the original video.
+
+
+
+|-|_|-|_|-|_|-|_|-| Convert videos with Handbrake |-|_|-|_|-|_|-|_|-|
+
+Convert videos with Handbrake so that they are compatible with all devices (mp4 extension is preferred)
+
+
+
+|-|_|-|_|-|_|-|_|-| Open files and directories in Nautilus using the Terminal |-|_|-|_|-|_|-|_|-|
+
+xdg-open
+gnome-open
+
+
+|-|_|-|_|-|_|-|_|-| Transfer files with Rsync via SSH |-|_|-|_|-|_|-|_|-|
+
+- Copying files:
+rsync foo.txt me@server:/home/me/
+
+- Copying directories:
+rsync -r bar/ me@server:/home/me/
+
+
+
+
+|-|_|-|_|-|_|-|_|-| NMAP - Ports and network scanning |-|_|-|_|-|_|-|_|-|
+
+$ nmap -p 636 10.29.114.230	--> It looks for the port "636" (ldap) in the remote IP 10.29.114.230
+
+
+
+|-|_|-|_|-|_|-|_|-| Modules in Linux Kernel |-|_|-|_|-|_|-|_|-|
+
+- list the status of all modules:
+$ lsmod
+
+- See the information of particular driver:
+$ modinfo {driver-name}
+
+- Add and remove modules from the Linux Kernel:
+# modprobe
+
+
+|-|_|-|_|-|_|-|_|-| Formatting devices |-|_|-|_|-|_|-|_|-|
+
+mkfs.ntfs -f -L <USB_name> /dev/sdaX
+
+

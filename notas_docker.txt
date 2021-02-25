@@ -1,0 +1,31 @@
+docker ps -a
+
+docker rmi <image_name or id>
+
+docker rm <container_name or id>
+
+docker pull <image>:<tag>			--> <tag> is a version number and othe information
+
+
+* GUARDAR CONTENEDOR COMO BACKUP
+- Primero se guarda un contenedor como imagen:
+# docker commit pca-mysql pca-mysql
+
+- Despues se guarda la imagen como archivo .tar (comprimido)
+docker save pca-mysql > pca-mysql.tar
+
+- Para restaurar el contenedor se coge el archivo ".tar" y se lo guarda otravez como imagen en otro computador:
+docker load -i pca-mysql.tar
+
+- Ya teniendo la imagen se puede correrla y crear un contenedor otravez usando "docker run <image>"
+
+
+
+* PARA CORRER PHP
+docker pull php:7.4-apache
+docker run -p 8000:80 -d php:7.4-apache
+docker exec -it <container_id or name> bash
+
+
+* PARA CORRER UN ARCHIVO DOCKER COMPOSE:
+docker-compose up -d

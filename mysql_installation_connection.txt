@@ -1,0 +1,27 @@
+# docker pull mysql
+# docker run --name pca-mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=root -d mysql
+# mysql -h 127.0.0.1 -u root -p
+# docker stop pca-mysql
+# docker start pca-mysql
+Nota:
+	Si se quiere conectar con DBeaver, por ejemplo, se deben establecer los siguientes atributos:
+	allowPublicKeyRetrieval 	= TRUE
+	useSSL				= FALSE
+	connectTimeout			= 20000
+	
+	El Host debe ser "127.0.0.1"
+	No es necesario especificar una Database en particular
+
+DUMP (backup & restore)
+
+- backup:
+docker exec <db_container_name> mysqldump --user <yourusername> --password=<yourpassword> databasename > /desired/path/to/db.dump
+
+- restore:
+docker exec -i <db_container_name> mysql --user <yourusername> --password=<yourpassword> databasename < /path/to/db.dump
+
+
+
+
+
+

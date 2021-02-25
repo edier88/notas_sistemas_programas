@@ -1,0 +1,66 @@
+LDAP directories
+
+los directorios LDAP se conforman de "entradas", que son una colección de atributos que tienen un Unique Distinguished Name (DN)
+
+Cada atributo de cada entrada tiene un "tipo" y uno o mas "valores"
+cn --> common name
+mail --> direccion de email
+
+ejemplo:
+el atributo "cn" contiene un valor de "Bob smith"
+un atributo "mail" puede contener un valor de "bob@ejemplo.com"
+un atributo "jpegPhoto" puede contener un archivo JPEG como valor
+
+Estructura de Arbol DIT (Directory Information Tree):
+
+			dc=it---------.-------------.dc=net
+				       dc=com
+					|
+					|
+					|
+Organization ------------------>	dc=hotmail
+					|
+					|
+					|
+Organizational Unit-->	ou=Users--------.-------------ou=computers
+			|		ou=Groups
+			|		|
+			|		|
+Person----------->	uid=Danix	|
+					|
+				cn=Domain Useres
+
+Un ejemplo de un DN sería la ruta de todos los atributos concatenados, por ejemplo:
+ui=Danix,ou=Users,dc=hotmail,dc=com
+
+O ====> organization
+OU ===> Organizational Unit
+SN ===> Surname
+UID ==> User id
+CN ===> Common Name
+DC ===> Domain Component
+Mail => mail address
+C ====> country
+L ====> location
+St ===> Status
+
+- Ejemplo de archivo LDIF:
+
+dn: ui=Danix,ou=Users,dc=hotmail,dc=com
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: sambaSamAccount
+cn: Daniel Rivera
+sn: Rivera
+givenName: Daniel
+uid: Danix
+uidNumber: 2076
+gidNumber: 543
+homeDirectory: /home/danix
+
+
+
+

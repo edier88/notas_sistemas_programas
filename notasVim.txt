@@ -1,0 +1,216 @@
+
+|-|_|-|_|-|_|-|_|-|_|-|  REEMPLAZAR UNA PALABRA POR OTRA  |-|_|-|_|-|_|-|_|-|_|-|
+
+:%s/<palabraOriginal>/<palabraNueva>/g
+
+
+- Para poner un salto de linea en vez otro caracter:
+
+:%s/<caracter>/\r/g
+
+- Para adicionar algo al final
+
+:%s/$/<caracter>/g
+
+- Para adicionar algo al inicio
+
+:%s/^/<caracter>/g
+
+
+Si se quiere eliminar todos los caracteres que explícitamente tengan "\n"
+se escribe doble backslash para que se detecte este caracter
+:%s/\\n/ /g
+
+Si se escribe con un sólo backslash Vim detecta los saltos de línea reales:
+:%s/\n/ /g
+
+Lo siguiente reemplaza por "bar" todo lo que esté antes de la palabra "SEDE":
+:%s/.*SEDE/bar/g
+
+
+-> Variaciones importantes:
+
+:%s/foo/bar/g
+    Find each occurrence of 'foo' (in all lines), and replace it with 'bar'.
+
+:s/foo/bar/g
+    Find each occurrence of 'foo' (in the current line only), and replace it with 'bar'.
+
+:%s/foo/bar/gc
+    Change each 'foo' to 'bar', but ask for confirmation first.
+
+:%s/\<foo\>/bar/gc
+    Change only whole words exactly matching 'foo' to 'bar'; ask for confirmation.
+
+:%s/foo/bar/gci
+    Change each 'foo' (case insensitive due to the i flag) to 'bar'; ask for confirmation.
+    :%s/foo\c/bar/gc is the same because \c makes the search case insensitive.
+    This may be wanted after using :set noignorecase to make searches case sensitive (the default).
+
+:%s/foo/bar/gcI
+    Change each 'foo' (case sensitive due to the I flag) to 'bar'; ask for confirmation.
+    :%s/foo\C/bar/gc is the same because \C makes the search case sensitive.
+    This may be wanted after using :set ignorecase to make searches case insensitive.
+
+The g flag means global – each occurrence in the line is changed, rather than just the first. 
+This tip assumes the default setting for the 'gdefault' and 'edcompatible' option (off), 
+which requires that the g flag be included in %s///g to perform a global substitute. 
+Using :set gdefault creates confusion because then %s/// is global, whereas %s///g is not (that is, g reverses its meaning).
+
+When using the c flag, you need to confirm for each match what to do. 
+Vim will output something like: replace with foobar (y/n/a/q/l/^E/^Y)? 
+(where foobar is the replacement part of the :s/.../.../ command. 
+You can type y which means to substitute this match, n to skip this match, 
+a to substitute this and all remaining matches ("all" remaining matches), 
+q to quit the command, l to substitute this match and quit (think of "last"), 
+^E to scroll the screen up by holding the Ctrl key and pressing E and ^Y to scroll the screen down by holding the Ctrl key and pressing Y. 
+However, the last two choices are only available, if your Vim is a normal, 
+big or huge built or the insert_expand feature was enabled at compile time (look for +insert_expand in the output of :version).
+
+Also when using the c flag, Vim will jump to the first match it finds starting from the top of the buffer, 
+and prompt you for confirmation to perform replacement on that match. Vim applies the IncSearch highlight group 
+to the matched text to give you a visual cue as to which match it is operating on (set to reverse by default for all three term types as of Vim 7.3). 
+Additionally, if more than one match is found and you have search highlighting enabled with :set hlsearch, 
+Vim highlights the remaining matches with the Search highlight group. If you do use search highlighting, 
+you should make sure that these two highlight groups are visually distinct or you won't be able to easily 
+tell which match Vim is prompting you to substitute.
+
+
+
+- Matches all the "hola" words that are written in the beginning of a new line and replaces them with "quiubo":
+:%s/^hola/quiubo/g
+
+- Matches and replaces all the numbers from 00 to 55 and replaces them with nothing:
+:%s/[00-55]\w//g
+
+
+|-|_|-|_|-|  ELIMINAR MARCAS AMARILLAS DE UNA BUSQUEDA ANTERIOR  |-|_|-|_|-|
+
+:noh
+
+
+
+|-|_|-|_|-|_|-|_|-|_|-|  HABILITAR MOUSE  |-|_|-|_|-|_|-|_|-|_|-|
+
+:set mouse=<modo>
+
+Ejemplo-->
+:set mouse=a
+
+Los distintos modos son-->
+
+n	Normal mode
+v       Visual mode
+i       Insert mode
+c       Command-line mode
+h       all previous modes when editing a help file
+a       all previous modes
+r       for |hit-enter| and |more-prompt| prompt 
+
+
+|-|_|-|_|-|_|-|_|  BUSCAR PALABRAS ACTIVANDO CASE INSENSITIVE  |-|_|-|_|-|_|-|_|
+
+- Con "\c" al inicio para case insensitive 
+- Con "\C" al inicio para case sensitive 
+
+Ejemplos:
+\cpalabra_a_buscar
+\CPALABRA_A_BUSCAR
+
+Ó
+
+< :set noignorecase > para case sensitive
+< :set ignorecase > para case insensitive
+
+
+|-|_|-|_|-|_|-|_| HABILITAR DESHABILITAR NUMEROS DE LINEAS |-|_|-|_|-|_|-|_|
+
+- Enabling:
+:set number
+:set num
+
+- Disabling:
+:set nonumber
+:set nonu
+:set nu!
+
+- Enabling Relative number:
+:set relativenumber
+:set rnu
+
+- Disabling Relative number:
+:set norelativenumber
+:set nornu
+
+|-|_|-|_|-|_|-|_| ERASE LINES |-|_|-|_|-|_|-|_|
+
+- Erase everything after the cursor:
+'D'
+
+
+|-|_|-|_|-|_|-|_| FAST MOVES |-|_|-|_|-|_|-|_|
+
+- Move word by word forward:
+'W' or 'w'
+
+- Move word by word backwards:
+'B' or 'b'
+
+
+|-|_|-|_|-|_|-|_| COPY PASTE |-|_|-|_|-|_|-|_|
+
+yy -> yank
+p -> paste after the cursor
+P -> paste before the cursor
+
+
+
+|-|_|-|_|-|_|-|_| UNDO - REDO |-|_|-|_|-|_|-|_|
+
+u -> Undo
+U -> Redo
+
+
+
+|-|_|-|_|-|_|-|_|-|_|-|  Count words, lines and characters  |-|_|-|_|-|_|-|_|-|_|-|
+
+:!wc -m %	--> counts characters 
+:!wc -l %	--> counts lines 
+:!wc -w %	--> counts words
+
+
+
+
+|-|_|-|_|-|_|-|_| VIM REGEX LOOKAHEAD AND LOOKBEHIND |-|_|-|_|-|_|-|_|
+
+Source: https://vim.fandom.com/wiki/Regex_lookahead_and_lookbehind
+
+
+- It detects the "foo" as long as it is between 15 and 5 characters, whatever they are:
+/\(.\{15}\)\@<=foo\(.\{5}\)\@=
+
+- It detects "foo" when it is after the word "bar":
+/\(bar\)\@<=foo
+
+- It detects "foo" when it is before the word "ram":
+/foo\(ram\)\@=/
+
+- It detects everything between a comma (,) and the number 73 with other characters:
+/\(,\)\@<=.\{8}\(73.\)\@=
+
+- It detects everything between a comma (,) and the number 86 with other characters:
+/\(,\)\@<=.\{2}\(86.\)\@=
+
+
+
+positive lookahead:	(atom)\@=
+positive lookbehind:	(atom)\@<=
+negative lookahead:	(atom)\@!
+negative lookbehind:	(atom)\@<!
+
+
+
+%s/30\(.....\n\)\@=/300/g
+%s/\(,\)\@<=.\{8}\(73.\{13}\n\)\@=//g
+
+%s/\(,\)\@<=.\{3}\(86.\{13}\,\)\@=//g
